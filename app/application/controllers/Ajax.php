@@ -33,7 +33,8 @@ class Ajax extends CI_Controller {
     public function getCurrency($curr_a, $curr_b, $value = false) {
         // Get currency in DB
         $convert = $this->currency->convert('ethereum', 'usd');
-        if (!$convert || strtotime($convert->currency_created_at) < strtotime('-1hour')) {
+        // Updated each hour
+        if (!$convert || strtotime($convert->currency_updated_at) < strtotime('-1hour')) {
             // Get currency API
             $apiReturn = json_decode(file_get_contents('http://api.coinmarketcap.com/v1/ticker/' . $curr_a . '?CMC_PRO_API_KEY=' . $this->config->item('API_KEY_coinmarketcap')));
             // Check if result
